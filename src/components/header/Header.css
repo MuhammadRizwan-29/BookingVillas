@@ -10,6 +10,9 @@
     max-width: 1024px;
     margin: 20px 0 100px 0;
 }
+.headerContainer.listMode{
+    margin-bottom: 50px;
+}
 .headerList{
     display: flex;
     gap: 40px;
@@ -95,4 +98,7 @@
     border: 1px solid #0071c2;
     cursor: pointer;
     background-color: white;
+}
+.optionCounterButton:disabled{
+    cursor: not-allowed;
 }

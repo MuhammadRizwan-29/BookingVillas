@@ -8,7 +8,7 @@ import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
 import { format } from "date-fns";
 
-export default function Header(){
+export default function Header({type}){
     const [openDate, setOpenDate] = useState(false);
     const [openOptions, setOpenOptions] = useState(false);
     const [options, setOptions] = useState({
@@ -33,7 +33,7 @@ export default function Header(){
     };
     return(
         <div className="header">
-            <div className="headerContainer">
+            <div className={type==="list" ? "headerContainer listMode" : "headerContainer"}>
                 <div className="headerList">
                     <div className="headerListItem active">
                         <FontAwesomeIcon icon={faBed} />
@@ -56,6 +56,8 @@ export default function Header(){
                         <span>Airpot Taxi</span>
                     </div>
                 </div>
+                { type !== "list" &&
+                <>
                 <h1 className="headerTitle">A lifetime of discounts? It's Genius.</h1>
                 <p className="headerDesc">
                     Get rewards for your travels - unlock instant saving of 10% or more with a free BookingVillas account.
@@ -79,43 +81,44 @@ export default function Header(){
                                 ranges={date}
                                 className="date"
                             />}
-                       
                     </div>
+
                     <div className="headerSearchItem">
                         <FontAwesomeIcon icon={faPerson} className="headerIcon" />
-                        <span className="headerSearchText">{`${options.adult} adult . ${options.children} children . ${options.room} room `}
-                            <div className="options">
-                                <div className="optionItem">
-                                    <span className="optionText">Adults</span>
-                                    <div className="optionCount">
-                                        <button className="optionCounterButton" onClick={()=>handleOption("adult", "dec")}>-</button>
-                                        <span className="optionCounterNumber">1</span>
-                                        <button className="optionCounterButton" onClick={()=>handleOption("adult", "inc")}>+</button>
-                                    </div>
-                                </div>
-                                <div className="optionItem">
-                                    <span className="optionText">Children</span>
-                                    <div className="optionCount">
-                                        <button className="optionCounterButton" onClick={()=>handleOption("children", "dec")}>-</button>
-                                        <span className="optionCounterNumber">0</span>
-                                        <button className="optionCounterButton" onClick={()=>handleOption("children", "inc")}>+</button>
-                                    </div>
-                                </div>
-                                <div className="optionItem">
-                                    <span className="optionText">Room</span>
-                                    <div className="optionCount">
-                                        <button className="optionCounterButton" onClick={()=>handleOption("room", "dec")}>-</button>
-                                        <span className="optionCounterNumber">1</span>
-                                        <button className="optionCounterButton" onClick={()=>handleOption("room", "inc")}>+</button>
-                                    </div>
+                        <span onClick={()=>setOpenOptions(!openOptions)} className="headerSearchText">{`${options.adult} adult . ${options.children} children . ${options.room} room `}
+                        
+                        {openOptions && <div className="options">
+                            <div className="optionItem">
+                                <span className="optionText">Adults</span>
+                                <div className="optionCount">
+                                    <button className="optionCounterButton" disabled={options.adult<=1} onClick={()=>handleOption("adult", "dec")}>-</button>
+                                    <span className="optionCounterNumber">{options.adult}</span>
+                                    <button className="optionCounterButton" onClick={()=>handleOption("adult", "inc")}>+</button>
                                 </div>
                             </div>
+                            <div className="optionItem">
+                                <span className="optionText">Children</span>
+                                <div className="optionCount">
+                                    <button className="optionCounterButton" disabled={options.children<=1} onClick={()=>handleOption("children", "dec")}>-</button>
+                                    <span className="optionCounterNumber">{options.children}</span>
+                                    <button className="optionCounterButton" onClick={()=>handleOption("children", "inc")}>+</button>
+                                </div>
+                            </div>
+                            <div className="optionItem">
+                                <span className="optionText">Room</span>
+                                <div className="optionCount">
+                                    <button className="optionCounterButton" disabled={options.room <= 1 } onClick={()=>handleOption("room", "dec")}>-</button>
+                                    <span className="optionCounterNumber">{options.room}</span>
+                                    <button className="optionCounterButton" onClick={()=>handleOption("room", "inc")}>+</button>
+                                </div>
+                            </div>
+                        </div>}
                         </span>
                     </div>
                     <div className="headerSearchItem">
                        <button className="headerBtn">Search</button>
                     </div>
-                </div>
+                </div></>}
             </div>
         </div>
     );
